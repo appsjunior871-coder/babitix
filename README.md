@@ -2,6 +2,10 @@
 
 **Démo en ligne : [babitix.vercel.app](https://babitix.vercel.app)**
 
+<p align="center">
+  <a href="https://babitix.vercel.app"><img src="docs/screenshots/01-accueil.webp" alt="Page d'accueil de BabiTix" width="100%"></a>
+</p>
+
 BabiTix est une billetterie en ligne pour les concerts, festivals, spectacles d'humour et événements sportifs en Côte d'Ivoire. Le visiteur trouve un événement, choisit ses billets, applique un code promo, paie en Mobile Money ou par carte et reçoit un e-billet avec un QR code.
 
 Ce projet a été réalisé pour le **[LibraryUI Challenge #01 — Création libre](https://libraryui.com/challenges/cree-une-interface-avec-des-composants-de-libraryui)**. Il est construit avec Angular, Bootstrap et **10 composants [LibraryUI](https://libraryui.com)**.
@@ -19,6 +23,41 @@ Ce projet a été réalisé pour le **[LibraryUI Challenge #01 — Création lib
 - **Paiement Mobile Money** (Orange Money, MTN MoMo, Moov Money, Wave) ou par carte bancaire.
 - **E-billet** avec un vrai QR code généré à partir de la référence, un code-barres et une version imprimable.
 - **Responsive** : menu burger, filtres en tiroir plein écran et mise en page adaptée au mobile, à la tablette et à l'ordinateur.
+
+## 📸 Aperçu
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/03-evenements.webp" alt="Liste des événements avec filtres"></td>
+    <td width="50%"><img src="docs/screenshots/02-a-la-une.webp" alt="Carrousel des événements à la une"></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Agenda filtrable</b><br><sub>Filters (LibraryUI)</sub></td>
+    <td align="center"><b>Événements à la une</b><br><sub>Carousel (LibraryUI)</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/05-reservation.webp" alt="Choix des billets et code promo"></td>
+    <td width="50%"><img src="docs/screenshots/06-paiement.webp" alt="Paiement par carte ou Mobile Money"></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Choix des billets et code promo</b><br><sub>Stepper + Coupon (LibraryUI)</sub></td>
+    <td align="center"><b>Paiement Mobile Money ou carte</b><br><sub>Payment (LibraryUI)</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/04-evenement.webp" alt="Page d'un événement"></td>
+    <td width="50%"><img src="docs/screenshots/07-billet.webp" alt="E-billet avec QR code"></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Page d'un événement</b></td>
+    <td align="center"><b>E-billet avec QR code</b><br><sub>Message confirm ticket (LibraryUI)</sub></td>
+  </tr>
+</table>
+
+**Sur mobile**
+
+<p align="center">
+  <img src="docs/screenshots/08-mobile.webp" alt="BabiTix sur mobile : accueil, liste des événements et billet" width="100%">
+</p>
 
 ## 🧩 Composants LibraryUI utilisés
 
@@ -92,6 +131,7 @@ src/app/
 ├── services/    # réservations et recherche
 ├── data/        # événements de démonstration
 └── shared/      # affiches générées en CSS, formatage FCFA et dates
+docs/screenshots/  # captures d'écran du README
 ```
 
 ## 👤 Auteur
