@@ -1,0 +1,14 @@
+<div class="poster__motif" aria-hidden="true"></div>
+<i class="bi poster__icon" [class]="event().poster.icon" aria-hidden="true"></i>
+@if (showDate()) {
+  <div class="poster__date">
+    <strong>{{ day() }}</strong>
+    <span>{{ month() }}</span>
+  </div>
+}
+@if (showTitle()) {
+  <div class="poster__title">
+    <span class="poster__category">{{ event().category }}</span>
+    <span class="poster__name">{{ event().title }}</span>
+  </div>
+}

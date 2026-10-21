@@ -1,0 +1,74 @@
+<section class="hero" data-libraryui="Hero">
+  <div class="hero-container">
+    <!-- Content -->
+    <div class="hero-content">
+      @if (hero().badge) {
+        <span class="hero-badge"><i class="bi bi-lightning-charge-fill"></i> {{ hero().badge }}</span>
+      }
+
+      <h1 class="hero-title">
+        {{ hero().title }}
+        @if (hero().highlightedText) {
+          <span class="highlight">{{ hero().highlightedText }}</span>
+        }
+      </h1>
+
+      <p class="hero-subtitle">{{ hero().subtitle }}</p>
+
+      <div class="hero-actions">
+        <a routerLink="/" [fragment]="hero().primaryCta.fragment" class="lui-btn lui-btn--primary lui-btn--lg">
+          {{ hero().primaryCta.text }}
+          <i class="bi bi-arrow-right"></i>
+        </a>
+        @if (hero().secondaryCta; as cta) {
+          <a routerLink="/" [fragment]="cta.fragment" class="lui-btn lui-btn--secondary lui-btn--lg">
+            <i class="bi bi-play-circle"></i>
+            {{ cta.text }}
+          </a>
+        }
+      </div>
+
+      <!-- Stats -->
+      @if (hero().stats; as stats) {
+        <div class="hero-stats">
+          @for (stat of stats; track stat.label) {
+            <div class="stat-item">
+              <span class="stat-value">{{ stat.value }}</span>
+              <span class="stat-label">{{ stat.label }}</span>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Visual -->
+    @if (spotlight(); as event) {
+      <div class="hero-visual">
+        <div class="visual-wrapper">
+          <a class="hero-image" [routerLink]="['/evenements', event.slug]" [attr.aria-label]="'Voir ' + event.title">
+            <app-poster [event]="event" size="lg" />
+          </a>
+          <div class="hero-chip hero-chip--top">
+            <i class="bi bi-phone-fill"></i>
+            <span><strong>Paiement Mobile Money</strong>Orange, MTN, Moov, Wave</span>
+          </div>
+          <div class="hero-chip hero-chip--bottom">
+            <i class="bi bi-ticket-perforated-fill"></i>
+            <span><strong>Dès {{ spotlightPrice() | fcfa }}</strong>{{ event.venue }}</span>
+          </div>
+          <div class="visual-decoration decoration-1"></div>
+          <div class="visual-decoration decoration-2"></div>
+          <div class="visual-decoration decoration-3"></div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Background Elements -->
+  <div class="hero-bg">
+    <div class="bg-gradient"></div>
+    <div class="bg-pattern"></div>
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+  </div>
+</section>

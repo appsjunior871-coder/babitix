@@ -1,0 +1,82 @@
+<div data-libraryui="Coupon">
+  @if (store.coupon(); as applied) {
+    <!-- Applied Coupon -->
+    <div class="applied-coupon">
+      <div class="applied-header">
+        <h3>
+          <i class="bi bi-check-circle-fill"></i>
+          Code promo appliqué
+        </h3>
+      </div>
+      <div class="applied-content">
+        <div class="coupon-visual">
+          <div class="coupon-badge">
+            <i class="bi" [class]="getCouponTypeIcon(applied.type)"></i>
+          </div>
+          <div class="coupon-details">
+            <span class="coupon-code">{{ applied.code }}</span>
+            <span class="coupon-desc">{{ applied.description }}</span>
+          </div>
+          <div class="coupon-value">
+            <span class="discount-amount">-{{ store.discount() | fcfa }}</span>
+          </div>
+        </div>
+        <button class="remove-btn" (click)="removeCoupon()">
+          <i class="bi bi-x"></i>
+          Retirer
+        </button>
+      </div>
+    </div>
+  } @else {
+    <!-- Apply Coupon Form -->
+    <div class="apply-coupon-card">
+      <h3 class="card-title">Tu as un code promo ?</h3>
+
+      <form class="coupon-form" (submit)="applyCoupon(); $event.preventDefault()">
+        <div class="input-group">
+          <i class="bi bi-ticket-perforated"></i>
+          <input
+            type="text"
+            class="coupon-input"
+            name="coupon"
+            [ngModel]="couponInput()"
+            (ngModelChange)="couponInput.set($event)"
+            placeholder="Ex. BABI10"
+            aria-label="Code promo"
+            [disabled]="isApplying()">
+        </div>
+        <button class="apply-btn" type="submit" [disabled]="isApplying() || !couponInput().trim()">
+          @if (isApplying()) {
+            <span class="loading"><i class="bi bi-arrow-repeat"></i></span>
+          } @else {
+            Appliquer
+          }
+        </button>
+      </form>
+
+      <!-- Messages -->
+      @if (errorMessage()) {
+        <div class="message error" role="alert">
+          <i class="bi bi-exclamation-circle"></i>
+          {{ errorMessage() }}
+        </div>
+      }
+
+      <div class="coupon-suggestions">
+        <span>Codes de démo :</span>
+        @for (c of suggestions; track c.code) {
+          <button type="button" class="coupon-chip" (click)="applyCoupon(c.code)" [disabled]="isApplying()" [title]="c.description">
+            {{ c.code }}
+          </button>
+        }
+      </div>
+    </div>
+  }
+
+  @if (successMessage() && store.coupon()) {
+    <div class="message success" role="status">
+      <i class="bi bi-check-circle"></i>
+      {{ successMessage() }} Tu économises {{ store.discount() | fcfa }}.
+    </div>
+  }
+</div>

@@ -1,0 +1,149 @@
+<ng-template #accordion let-items>
+  <div class="accordion">
+    @for (item of items; track item.id) {
+      <div class="accordion-item" [class.is-open]="item.isOpen">
+        <button class="accordion-header" (click)="toggleItem(item)" [attr.aria-expanded]="item.isOpen">
+          <span class="question">{{ item.question }}</span>
+          <i class="bi" [class.bi-dash-lg]="item.isOpen" [class.bi-plus-lg]="!item.isOpen"></i>
+        </button>
+        @if (item.isOpen) {
+          <div class="accordion-body">
+            <p class="answer">{{ item.answer }}</p>
+            @if (item.helpful) {
+              <div class="feedback">
+                <span class="feedback-label">Cette réponse t’a aidé ?</span>
+                <div class="feedback-btns">
+                  <button class="feedback-btn" (click)="markHelpful(item, true)">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                    Oui ({{ item.helpful.yes }})
+                  </button>
+                  <button class="feedback-btn" (click)="markHelpful(item, false)">
+                    <i class="bi bi-hand-thumbs-down"></i>
+                    Non ({{ item.helpful.no }})
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+</ng-template>
+
+<div class="faq-page" data-libraryui="Faq">
+  <!-- Header -->
+  <div class="faq-header">
+    <span class="section-eyebrow"><i class="bi bi-question-circle"></i> Aide</span>
+    <h2>Questions fréquentes</h2>
+    <p>Tout ce qu’il faut savoir avant de réserver. {{ totalQuestions() }} réponses, en moins d’une minute de lecture chacune.</p>
+
+    <!-- Search -->
+    <div class="faq-search">
+      <i class="bi bi-search"></i>
+      <input
+        type="text"
+        [ngModel]="searchQuery()"
+        (ngModelChange)="searchQuery.set($event)"
+        placeholder="Rechercher : remboursement, Wave, QR code..."
+        aria-label="Rechercher une question">
+      @if (searchQuery()) {
+        <button class="clear-btn" (click)="searchQuery.set('')" aria-label="Effacer la recherche">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="faq-content">
+    <!-- Categories Navigation -->
+    @if (!searchQuery()) {
+      <nav class="faq-categories" aria-label="Catégories de questions">
+        @for (category of categories(); track category.id) {
+          <button
+            class="category-btn"
+            [class.active]="activeCategory() === category.id"
+            (click)="activeCategory.set(category.id)">
+            <i class="bi" [class]="category.icon"></i>
+            <span>{{ category.name }}</span>
+            <span class="count">{{ category.items.length }}</span>
+          </button>
+        }
+      </nav>
+    }
+
+    <!-- FAQ List -->
+    <div class="faq-list">
+      <!-- Actions -->
+      <div class="faq-actions">
+        <span class="results-count">
+          @if (searchQuery()) {
+            {{ resultCount() ? resultCount() + ' résultat(s) trouvé(s)' : 'Aucun résultat trouvé' }}
+          }
+        </span>
+        <div class="action-btns">
+          <button class="text-btn" (click)="expandAll()">
+            <i class="bi bi-arrows-expand"></i>
+            Tout ouvrir
+          </button>
+          <button class="text-btn" (click)="collapseAll()">
+            <i class="bi bi-arrows-collapse"></i>
+            Tout fermer
+          </button>
+        </div>
+      </div>
+
+      @if (searchQuery()) {
+        <!-- Search Results -->
+        @for (category of filteredCategories(); track category.id) {
+          <div class="category-section">
+            <h3 class="category-title">
+              <i class="bi" [class]="category.icon"></i>
+              {{ category.name }}
+            </h3>
+            <ng-container *ngTemplateOutlet="accordion; context: { $implicit: category.items }" />
+          </div>
+        } @empty {
+          <!-- No Results -->
+          <div class="no-results">
+            <i class="bi bi-search"></i>
+            <h3>Aucun résultat trouvé</h3>
+            <p>Essaie avec d’autres mots ou parcours les catégories.</p>
+            <button class="lui-btn lui-btn--primary" (click)="searchQuery.set('')">
+              Voir toutes les questions
+            </button>
+          </div>
+        }
+      } @else if (activeCategoryData(); as category) {
+        <!-- Category View -->
+        <div class="category-section">
+          <h3 class="category-title">
+            <i class="bi" [class]="category.icon"></i>
+            {{ category.name }}
+          </h3>
+          <ng-container *ngTemplateOutlet="accordion; context: { $implicit: category.items }" />
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Contact CTA -->
+  <div class="contact-cta">
+    <div class="cta-content">
+      <i class="bi bi-whatsapp"></i>
+      <div class="cta-text">
+        <h3>Tu n’as pas trouvé ta réponse ?</h3>
+        <p>Notre équipe répond sur WhatsApp 7 j/7, de 8 h à 22 h.</p>
+      </div>
+    </div>
+    <button class="lui-btn lui-btn--light" (click)="supportClicked.set(true)">
+      <i class="bi bi-headset"></i>
+      Contacter le support
+    </button>
+  </div>
+  @if (supportClicked()) {
+    <p class="support-note" role="status">
+      <i class="bi bi-info-circle"></i> Démo : en production, ce bouton ouvrirait une conversation WhatsApp avec le support.
+    </p>
+  }
+</div>

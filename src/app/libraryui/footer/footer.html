@@ -1,0 +1,75 @@
+<footer class="footer" data-libraryui="Footer · Full footer">
+  <div class="footer-inner">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <div class="logo-row">
+          <div class="logo"><i class="bi bi-ticket-perforated-fill"></i></div>
+          <span class="brand-name">Babi<span>Tix</span></span>
+        </div>
+        <p>{{ description }}</p>
+        <div class="footer-social">
+          @for (s of socialLinks; track s.icon) {
+            <a href="#" (click)="$event.preventDefault()" [attr.aria-label]="s.label"><i class="bi" [class]="s.icon"></i></a>
+          }
+        </div>
+      </div>
+      @for (col of columns; track col.title) {
+        <div class="footer-col">
+          <h4>{{ col.title }}</h4>
+          <ul>
+            @for (link of col.links; track link.label) {
+              <li>
+                <a routerLink="/" [fragment]="link.fragment">
+                  {{ link.label }}
+                  @if (link.badge) {
+                    <span class="new-badge">{{ link.badge }}</span>
+                  }
+                </a>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+      <div class="footer-col">
+        <h4>Paiements acceptés</h4>
+        <ul class="pay-list">
+          <li><span class="pay-dot" style="background:#ff7900"></span>Orange Money</li>
+          <li><span class="pay-dot" style="background:#ffcc00"></span>MTN MoMo</li>
+          <li><span class="pay-dot" style="background:#1d4ed8"></span>Moov Money</li>
+          <li><span class="pay-dot" style="background:#1dc8f2"></span>Wave</li>
+          <li><span class="pay-dot" style="background:#94a3b8"></span>Visa / Mastercard</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-newsletter">
+      <div class="newsletter-text">
+        <h4>Les bons plans de Babi</h4>
+        <p>Chaque jeudi, les sorties du week-end et des codes promo réservés aux abonnés.</p>
+      </div>
+      @if (subscribed()) {
+        <p class="newsletter-ok" role="status"><i class="bi bi-check-circle-fill"></i> C’est noté ! Rendez-vous jeudi dans ta boîte mail.</p>
+      } @else {
+        <form class="newsletter-form" (submit)="onSubscribe(); $event.preventDefault()">
+          <input type="email" placeholder="ton@email.com" aria-label="Adresse e-mail" [(ngModel)]="newsletterEmail" name="newsletterEmail" required>
+          <button type="submit">S’abonner</button>
+        </form>
+      }
+    </div>
+    <div class="footer-libraryui">
+      <span class="footer-libraryui__label"><i class="bi bi-boxes"></i> Construit avec les composants LibraryUI :</span>
+      <div class="footer-libraryui__list">
+        @for (c of usedComponents; track c.slug) {
+          <a [href]="'https://libraryui.com/components/bootstrap/' + c.slug" target="_blank" rel="noopener">{{ c.name }}</a>
+        }
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 {{ brandName }} · Projet de démonstration pour le LibraryUI Challenge #01. Événements fictifs.</span>
+      <div class="footer-bottom-links">
+        <a href="https://libraryui.com/challenges" target="_blank" rel="noopener">LibraryUI Challenges</a>
+        <a href="https://angular.dev" target="_blank" rel="noopener">Angular</a>
+        <a href="https://getbootstrap.com" target="_blank" rel="noopener">Bootstrap</a>
+      </div>
+    </div>
+  </div>
+</footer>

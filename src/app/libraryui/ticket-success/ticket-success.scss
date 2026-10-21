@@ -1,0 +1,267 @@
+// Styles LibraryUI « Ticket success code QR » (repris tels quels, + QR code)
+:host {
+  display: block;
+  font-family: inherit;
+
+  --card-bg: #ffffff;
+  --cutout-bg: #f6f7fb;
+  --text-dark: #14181f;
+  --text-muted: #94999f;
+  --divider-color: #dfe2e6;
+  --payment-bg: #f4f5f8;
+  --brand-red: #eb3b1e;
+  --brand-yellow: #f7a81b;
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+.ticket-card {
+  position: relative;
+  max-width: 380px;
+  width: 100%;
+  margin: 0 auto;
+  background: var(--card-bg);
+  border-radius: 28px;
+  box-shadow: 0 24px 48px rgba(20, 24, 31, 0.1);
+  overflow: visible;
+}
+
+.ticket-card__section {
+  padding: 30px 28px 0;
+
+  &--top {
+    padding-bottom: 24px;
+    text-align: center;
+  }
+
+  &--mid {
+    padding-top: 22px;
+    padding-bottom: 24px;
+  }
+
+  &--barcode {
+    padding-top: 22px;
+    padding-bottom: 32px;
+    text-align: center;
+  }
+}
+
+.celebrate-icon {
+  font-size: 40px;
+  line-height: 1;
+  margin-bottom: 14px;
+}
+
+.ticket-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin: 0 0 8px;
+}
+
+.ticket-subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+
+  strong {
+    color: var(--text-dark);
+  }
+}
+
+.ticket-divider {
+  position: relative;
+  height: 0;
+
+  &--plain {
+    border-top: 1px dashed var(--divider-color);
+    margin: 0 28px;
+  }
+}
+
+.ticket-divider__line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  border-top: 2px dashed var(--divider-color);
+}
+
+.ticket-divider__notch {
+  position: absolute;
+  top: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--cutout-bg);
+  transform: translate(-50%, -50%);
+
+  &--start {
+    left: 0;
+  }
+
+  &--end {
+    left: 100%;
+  }
+}
+
+.ticket-info-row {
+  margin-bottom: 18px;
+}
+
+.ticket-info {
+  margin-bottom: 18px;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  &--right {
+    text-align: right;
+  }
+}
+
+.ticket-info-row .ticket-info {
+  margin-bottom: 0;
+}
+
+.ticket-info__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 6px;
+
+  &--plain {
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: 400;
+  }
+}
+
+.ticket-info__value {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0;
+
+  &::first-letter {
+    text-transform: uppercase;
+  }
+
+  &--line {
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+}
+
+.payment-card {
+  margin-top: 22px;
+  background: var(--payment-bg);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.card-brand-icon {
+  position: relative;
+  width: 34px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.card-brand-icon__circle {
+  position: absolute;
+  top: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+
+  &--red {
+    left: 0;
+    background: var(--brand-red);
+  }
+
+  &--yellow {
+    left: 12px;
+    background: var(--brand-yellow);
+    mix-blend-mode: multiply;
+  }
+}
+
+// Pastille Mobile Money (ajout BabiTix)
+.momo-icon {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+}
+
+.payment-card__name {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 2px;
+}
+
+.payment-card__number {
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+  margin: 0;
+}
+
+// QR code (ajout BabiTix)
+.qr-code {
+  display: block;
+  margin: 0 auto 6px;
+  border-radius: 12px;
+  image-rendering: pixelated;
+}
+
+.qr-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0 0 18px;
+}
+
+.barcode {
+  width: 100%;
+  max-width: 280px;
+  height: 48px;
+  display: block;
+  margin: 0 auto;
+}
+
+.barcode-number {
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  color: var(--text-dark);
+  margin: 10px 0 0;
+}
+
+@media (max-width: 400px) {
+  .ticket-card__section {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .ticket-divider--plain {
+    margin: 0 20px;
+  }
+}
+
+@media print {
+  .ticket-card {
+    box-shadow: none;
+    border: 1px solid var(--divider-color);
+  }
+}

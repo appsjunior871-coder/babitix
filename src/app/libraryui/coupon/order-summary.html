@@ -1,0 +1,54 @@
+<div class="order-summary" data-libraryui="Coupon · Order Summary">
+  <h3 class="summary-title">Récapitulatif</h3>
+
+  @if (store.event(); as event) {
+    <div class="summary-event">
+      <strong>{{ event.title }}</strong>
+      <span><i class="bi bi-calendar-event"></i> {{ day(event.date) }} · {{ time(event.date) }}</span>
+      <span><i class="bi bi-geo-alt"></i> {{ event.venue }}</span>
+    </div>
+  }
+
+  <div class="summary-lines">
+    @for (line of store.lines(); track line.ticketId) {
+      <div class="summary-line">
+        <span>{{ line.qty }} × {{ line.name }}</span>
+        <span>{{ line.price * line.qty | fcfa }}</span>
+      </div>
+    } @empty {
+      <p class="summary-empty"><i class="bi bi-ticket-perforated"></i> Choisis au moins un billet pour continuer.</p>
+    }
+    @if (store.lines().length) {
+      <div class="summary-line">
+        <span>Frais de service <small>(3 %)</small></span>
+        <span>{{ store.fees() | fcfa }}</span>
+      </div>
+    }
+    @if (store.coupon(); as coupon) {
+      <div class="summary-line discount">
+        <span>
+          <i class="bi bi-tag-fill"></i>
+          {{ coupon.code }}
+        </span>
+        <span>-{{ store.discount() | fcfa }}</span>
+      </div>
+    }
+  </div>
+
+  <div class="summary-total">
+    <span>Total</span>
+    <span>{{ store.total() | fcfa }}</span>
+  </div>
+
+  @if (store.discount() > 0) {
+    <div class="savings-badge">
+      <i class="bi bi-piggy-bank"></i>
+      Tu économises {{ store.discount() | fcfa }} sur cette commande !
+    </div>
+  }
+
+  <ul class="summary-perks">
+    <li><i class="bi bi-qr-code"></i> E-billet avec QR code, envoyé par SMS</li>
+    <li><i class="bi bi-arrow-counterclockwise"></i> Remboursé si l’événement est annulé</li>
+  </ul>
+</div>

@@ -1,0 +1,69 @@
+<ui-hero [hero]="hero" [spotlight]="spotlight" [spotlightPrice]="spotlightPrice" />
+
+<!-- Comment ça marche -->
+<section id="comment" class="how">
+  <div class="container">
+    <div class="row g-3 g-lg-4">
+      @for (step of howItWorks; track step.title; let i = $index) {
+        <div class="col-md-4">
+          <div class="how-card">
+            <span class="how-card__num">0{{ i + 1 }}</span>
+            <i class="bi how-card__icon" [class]="step.icon"></i>
+            <h3>{{ step.title }}</h3>
+            <p>{{ step.text }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- À la une -->
+<section id="a-la-une" class="section pb-0">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <span class="section-eyebrow"><i class="bi bi-fire"></i> À la une</span>
+        <h2 class="section-heading">Les sorties à ne pas rater</h2>
+        <p class="section-lead">Les événements les plus attendus de la saison, sélectionnés par l’équipe BabiTix.</p>
+      </div>
+      <a class="lui-tag" href="https://libraryui.com/components/bootstrap/carousel" target="_blank" rel="noopener"><i class="bi bi-boxes"></i> LibraryUI · Carousel</a>
+    </div>
+    <ui-carousel-1 [slides]="featured" />
+  </div>
+</section>
+
+<!-- Tous les événements -->
+<section id="evenements" class="section">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <span class="section-eyebrow"><i class="bi bi-calendar3"></i> Agenda</span>
+        <h2 class="section-heading">Tous les événements</h2>
+        <p class="section-lead">Affine par catégorie, ville, budget ou période. La recherche du menu filtre aussi cette liste.</p>
+      </div>
+      <a class="lui-tag" href="https://libraryui.com/components/bootstrap/filters" target="_blank" rel="noopener"><i class="bi bi-boxes"></i> LibraryUI · Filters</a>
+    </div>
+    <ui-filters [events]="events" />
+  </div>
+</section>
+
+<!-- Avis -->
+<section id="avis" class="section section--tinted">
+  <div class="container">
+    <div class="section-head section-head--center">
+      <div>
+        <span class="section-eyebrow"><i class="bi bi-chat-heart"></i> Avis des fans</span>
+        <h2 class="section-heading">Ils sont sortis avec BabiTix</h2>
+      </div>
+    </div>
+    <ui-carousel-3 />
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="section">
+  <div class="container">
+    <ui-faq-accordion />
+  </div>
+</section>

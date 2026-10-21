@@ -1,0 +1,221 @@
+<div class="stepper-container" data-libraryui="Stepper">
+  <div class="stepper">
+    <!-- Progress Header -->
+    <div class="stepper-header">
+      <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="currentStep()" aria-valuemin="1" [attr.aria-valuemax]="steps.length">
+        <div class="progress-fill" [style.width.%]="progress()"></div>
+      </div>
+
+      <div class="steps-indicator">
+        @for (step of steps; track step.id) {
+          <button
+            type="button"
+            class="step-indicator"
+            [class.completed]="step.id < currentStep()"
+            [class.active]="step.id === currentStep()"
+            [disabled]="step.id >= currentStep()"
+            [attr.aria-current]="step.id === currentStep() ? 'step' : null"
+            (click)="goToStep(step.id)">
+            <div class="step-circle">
+              @if (step.id < currentStep()) {
+                <i class="bi bi-check"></i>
+              } @else {
+                <i class="bi" [class]="step.icon"></i>
+              }
+            </div>
+            <div class="step-info">
+              <span class="step-title">{{ step.title }}</span>
+              <span class="step-subtitle">{{ step.subtitle }}</span>
+            </div>
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Step Content -->
+    <div class="stepper-content">
+      @switch (currentStep()) {
+        @case (1) {
+          <!-- Step 1: Billets -->
+          <div class="step-panel">
+            <h2 class="panel-title">Choisis tes billets</h2>
+            <p class="panel-subtitle">Jusqu’à 10 billets par catégorie. Chaque billet a son propre QR code.</p>
+
+            @if (store.event(); as event) {
+              <div class="ticket-list">
+                @for (ticket of event.tickets; track ticket.id) {
+                  @let qty = store.quantities()[ticket.id] ?? 0;
+                  <div class="ticket-option" [class.is-selected]="qty > 0">
+                    <div class="ticket-option__info">
+                      <span class="ticket-option__name">{{ ticket.name }}</span>
+                      <span class="ticket-option__perks">{{ ticket.perks }}</span>
+                      @if (ticket.remaining <= 30) {
+                        <span class="ticket-option__low"><i class="bi bi-lightning-charge-fill"></i> Plus que {{ ticket.remaining }} places</span>
+                      }
+                    </div>
+                    <span class="ticket-option__price">{{ ticket.price | fcfa }}</span>
+                    <div class="qty" role="group" [attr.aria-label]="'Quantité ' + ticket.name">
+                      <button type="button" (click)="store.setQuantity(ticket.id, qty - 1)" [disabled]="qty === 0" aria-label="Retirer un billet">
+                        <i class="bi bi-dash"></i>
+                      </button>
+                      <span aria-live="polite">{{ qty }}</span>
+                      <button type="button" (click)="store.setQuantity(ticket.id, qty + 1)" [disabled]="qty >= 10" aria-label="Ajouter un billet">
+                        <i class="bi bi-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+
+            <ui-coupon />
+          </div>
+        }
+
+        @case (2) {
+          <!-- Step 2: Tes infos -->
+          <div class="step-panel">
+            <h2 class="panel-title">Tes informations</h2>
+            <p class="panel-subtitle">Ton billet sera envoyé par SMS et par e-mail.</p>
+
+            <form class="step-form" (submit)="nextStep(); $event.preventDefault()">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="first-name">Prénom</label>
+                  <input
+                    id="first-name"
+                    type="text"
+                    class="form-input"
+                    autocomplete="given-name"
+                    [value]="store.buyer().firstName"
+                    (input)="store.updateBuyer({ firstName: inputValue($event) })"
+                    placeholder="Aya">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="last-name">Nom</label>
+                  <input
+                    id="last-name"
+                    type="text"
+                    class="form-input"
+                    autocomplete="family-name"
+                    [value]="store.buyer().lastName"
+                    (input)="store.updateBuyer({ lastName: inputValue($event) })"
+                    placeholder="Kouassi">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="phone">Téléphone</label>
+                <div class="input-wrapper input-wrapper--prefix">
+                  <i class="bi bi-phone"></i>
+                  <span class="input-prefix">+225</span>
+                  <input
+                    id="phone"
+                    type="tel"
+                    inputmode="numeric"
+                    class="form-input"
+                    autocomplete="tel-national"
+                    [value]="store.buyer().phone"
+                    (input)="formatBuyerPhone($event)"
+                    placeholder="07 00 00 00 00">
+                </div>
+                <span class="form-hint">10 chiffres. C’est à ce numéro que tu recevras ton billet.</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="email">E-mail</label>
+                <div class="input-wrapper">
+                  <i class="bi bi-envelope"></i>
+                  <input
+                    id="email"
+                    type="email"
+                    class="form-input"
+                    autocomplete="email"
+                    [value]="store.buyer().email"
+                    (input)="store.updateBuyer({ email: inputValue($event) })"
+                    placeholder="aya@exemple.ci">
+                </div>
+              </div>
+              <button type="submit" hidden></button>
+            </form>
+          </div>
+        }
+
+        @case (3) {
+          <!-- Step 3: Paiement -->
+          <div class="step-panel">
+            <h2 class="panel-title">Paiement</h2>
+            <p class="panel-subtitle">
+              {{ store.ticketCount() }} billet{{ store.ticketCount() > 1 ? 's' : '' }} pour
+              {{ store.buyer().firstName }} {{ store.buyer().lastName }} · Total {{ store.total() | fcfa }}
+            </p>
+
+            <ui-payment />
+
+            <!-- Terms -->
+            <div class="terms-agreement">
+              <label class="checkbox-label">
+                <input type="checkbox" [checked]="store.termsAccepted()" (change)="store.termsAccepted.set(!store.termsAccepted())">
+                <span class="checkbox-mark"></span>
+                <span>J’accepte les conditions générales de vente et la politique de remboursement de l’organisateur.</span>
+              </label>
+            </div>
+          </div>
+        }
+      }
+
+      @if (isProcessing()) {
+        <div class="processing-overlay" role="status" aria-live="assertive">
+          <div class="processing-card">
+            <i class="bi bi-arrow-repeat spin"></i>
+            @if (store.payment().method === 'card') {
+              <strong>Vérification 3-D Secure…</strong>
+              <span>Ne ferme pas cette page.</span>
+            } @else {
+              <strong>Confirme le paiement sur ton téléphone</strong>
+              <span>Une demande {{ methodLabel() }} de {{ store.total() | fcfa }} a été envoyée au +225 {{ store.payment().phone }}.</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Actions -->
+    <div class="stepper-actions">
+      <button
+        class="lui-btn lui-btn--secondary"
+        (click)="prevStep()"
+        [disabled]="currentStep() === 1 || isProcessing()">
+        <i class="bi bi-arrow-left"></i>
+        Retour
+      </button>
+
+      @if (currentStep() < steps.length) {
+        <button
+          class="lui-btn lui-btn--primary"
+          (click)="nextStep()"
+          [disabled]="!isStepValid()">
+          Continuer
+          <i class="bi bi-arrow-right"></i>
+        </button>
+      } @else {
+        <button
+          class="lui-btn lui-btn--primary lui-btn--success"
+          (click)="submit()"
+          [disabled]="!isStepValid() || isProcessing()">
+          @if (isProcessing()) {
+            <span class="loading">
+              <i class="bi bi-arrow-repeat spin"></i>
+              Paiement en cours...
+            </span>
+          } @else {
+            <span>
+              <i class="bi bi-lock-fill"></i>
+              Payer {{ store.total() | fcfa }}
+            </span>
+          }
+        </button>
+      }
+    </div>
+  </div>
+</div>

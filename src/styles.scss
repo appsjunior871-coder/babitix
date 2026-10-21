@@ -1,0 +1,123 @@
+// Thème LibraryUI (documentation) : vert + corail, appliqué à Bootstrap
+$primary-green: #10b981;
+$coral: #FF6B6B;
+
+$primary: $primary-green;
+$danger: $coral;
+$font-family-sans-serif: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$body-color: #0f172a;
+$body-bg: #f6f7fb;
+$link-color: #059669;
+
+@import 'bootstrap/scss/bootstrap';
+
+:root {
+  --bt-green: #{$primary-green};
+  --bt-green-dark: #059669;
+  --bt-green-soft: #ecfdf5;
+  --bt-coral: #{$coral};
+  --bt-coral-dark: #ef4444;
+  --bt-sun: #f59e0b;
+  --bt-ink: #0b1220;
+  --bt-ink-2: #111a2e;
+  --bt-text: #0f172a;
+  --bt-muted: #64748b;
+  --bt-border: #e5e7eb;
+  --bt-bg: #f6f7fb;
+  --bt-gradient: linear-gradient(135deg, #10b981 0%, #0ea5a4 45%, #FF6B6B 100%);
+  --bt-gradient-soft: linear-gradient(135deg, #10b981 0%, #FF6B6B 100%);
+  --bt-radius: 1rem;
+  --bt-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+  --bt-shadow-lg: 0 24px 48px rgba(15, 23, 42, 0.14);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+
+body {
+  font-family: $font-family-sans-serif;
+  background: var(--bt-bg);
+  color: var(--bt-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+// En-têtes de section réutilisés sur la page d'accueil
+.section {
+  padding: 5rem 0;
+
+  @media (max-width: 768px) {
+    padding: 3.5rem 0;
+  }
+}
+
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bt-green-dark);
+  margin-bottom: 0.75rem;
+}
+
+.section-heading {
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.75rem;
+}
+
+.section-lead {
+  color: var(--bt-muted);
+  font-size: 1.05rem;
+  max-width: 620px;
+  margin: 0;
+}
+
+// Pastille « composant LibraryUI » (sert à identifier les composants pendant le vote)
+.lui-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--bt-green-dark);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:hover {
+    background: rgba(16, 185, 129, 0.18);
+    color: var(--bt-green-dark);
+  }
+}
+
+.demo-note {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: #fff7ed;
+  color: #9a3412;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+// Impression : on n'imprime que le billet
+@media print {
+  body {
+    background: #fff;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}

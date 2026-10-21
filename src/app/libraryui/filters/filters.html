@@ -1,0 +1,190 @@
+<div class="filters-showcase" data-libraryui="Filters">
+  <div class="filters-layout">
+    <!-- Sidebar Filters -->
+    <aside class="filters-sidebar" [class.is-open]="panelOpen()" aria-label="Filtres">
+      <div class="sidebar-header">
+        <h2><i class="bi bi-sliders2"></i> Filtres</h2>
+        <div class="sidebar-header-actions">
+          @if (activeFilters().length) {
+            <button class="clear-all-btn" (click)="clearAllFilters()">Tout effacer</button>
+          }
+          <button class="close-panel-btn" (click)="panelOpen.set(false)" aria-label="Fermer les filtres">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Active Filters -->
+      @if (activeFilters().length) {
+        <div class="active-filters">
+          @for (filter of activeFilters(); track filter.groupId + filter.value) {
+            <div class="active-filter-tag">
+              <span>{{ filter.label }}</span>
+              <button (click)="removeFilter(filter)" [attr.aria-label]="'Retirer ' + filter.label">
+                <i class="bi bi-x"></i>
+              </button>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- Filter Groups -->
+      <div class="filter-groups">
+        @for (group of groups(); track group.id) {
+          <div class="filter-group">
+            <button class="group-header" (click)="toggleGroup(group)" [attr.aria-expanded]="group.expanded">
+              <span>{{ group.label }}</span>
+              <i class="bi" [class.bi-chevron-up]="group.expanded" [class.bi-chevron-down]="!group.expanded"></i>
+            </button>
+
+            @if (group.expanded) {
+              <div class="group-content">
+                <!-- Checkbox Filter -->
+                @if (group.type === 'checkbox') {
+                  <div class="checkbox-list">
+                    @for (option of group.options; track option.value) {
+                      <label class="checkbox-item">
+                        <input type="checkbox" [checked]="option.checked" (change)="onCheckboxChange(group, option)">
+                        <span class="checkbox-label">{{ option.label }}</span>
+                        @if (option.count) {
+                          <span class="checkbox-count">({{ option.count }})</span>
+                        }
+                      </label>
+                    }
+                  </div>
+                }
+
+                <!-- Radio Filter -->
+                @if (group.type === 'radio') {
+                  <div class="radio-list">
+                    @for (option of group.options; track option.value) {
+                      <label class="radio-item">
+                        <input type="radio" [name]="group.id" [checked]="option.checked" (change)="onRadioChange(group, option)">
+                        <span class="radio-label">{{ option.label }}</span>
+                      </label>
+                    }
+                  </div>
+                }
+
+                <!-- Range Filter -->
+                @if (group.type === 'range' && group.range; as range) {
+                  <div class="range-filter">
+                    <div class="range-values">
+                      <span>{{ range.current[0] | fcfa }}</span>
+                      <span>{{ range.current[1] | fcfa }}</span>
+                    </div>
+                    <div class="range-inputs" [style.--range-fill]="rangeFill(group)">
+                      <input
+                        type="range"
+                        [min]="range.min"
+                        [max]="range.max"
+                        [step]="range.step"
+                        [value]="range.current[0]"
+                        (input)="onRangeChange(group, 0, $any($event.target).valueAsNumber)"
+                        aria-label="Prix minimum"
+                        class="range-slider">
+                      <input
+                        type="range"
+                        [min]="range.min"
+                        [max]="range.max"
+                        [step]="range.step"
+                        [value]="range.current[1]"
+                        (input)="onRangeChange(group, 1, $any($event.target).valueAsNumber)"
+                        aria-label="Prix maximum"
+                        class="range-slider">
+                    </div>
+                  </div>
+                }
+
+                <!-- Rating Filter -->
+                @if (group.type === 'rating') {
+                  <div class="rating-filter">
+                    @for (star of [4.8, 4.6, 4.4]; track star) {
+                      <button class="rating-btn" [class.selected]="group.rating === star" (click)="onRatingChange(group, star)">
+                        <span class="stars">
+                          @for (s of [1, 2, 3, 4, 5]; track s) {
+                            <i class="bi" [class.bi-star-fill]="s <= star" [class.bi-star-half]="s > star && s - 1 < star" [class.bi-star]="s - 1 >= star"></i>
+                          }
+                        </span>
+                        <span class="rating-label">{{ star }}+ étoiles</span>
+                      </button>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <button class="apply-mobile-btn" (click)="panelOpen.set(false)">
+        Voir {{ results().length }} événement{{ results().length > 1 ? 's' : '' }}
+      </button>
+    </aside>
+
+    <!-- Results Area -->
+    <div class="filters-content">
+      <div class="content-header">
+        <div class="content-header-left">
+          <button class="filters-toggle" (click)="panelOpen.set(!panelOpen())" [attr.aria-expanded]="panelOpen()">
+            <i class="bi bi-sliders2"></i> Filtres
+            @if (activeFilters().length) {
+              <span class="filters-toggle__count">{{ activeFilters().length }}</span>
+            }
+          </button>
+          <span class="results-count">
+            {{ results().length }} événement{{ results().length > 1 ? 's' : '' }}
+            @if (search.query()) {
+              pour « {{ search.query() }} »
+            }
+          </span>
+        </div>
+        <div class="sort-dropdown">
+          <select [ngModel]="sort()" (ngModelChange)="sort.set($event)" aria-label="Trier les événements">
+            <option value="date">Date la plus proche</option>
+            <option value="price-asc">Prix croissant</option>
+            <option value="price-desc">Prix décroissant</option>
+            <option value="rating">Meilleures notes</option>
+          </select>
+        </div>
+      </div>
+
+      @if (results().length) {
+        <div class="content-grid">
+          @for (event of results(); track event.slug) {
+            <a class="product-card" [routerLink]="['/evenements', event.slug]">
+              <div class="product-image">
+                <app-poster [event]="event" size="sm" [showTitle]="false" />
+              </div>
+              <div class="product-info">
+                <span class="product-category">{{ event.category }} · {{ event.city }}</span>
+                <h3 class="product-name">{{ event.title }}</h3>
+                <p class="product-meta">
+                  <i class="bi bi-calendar-event"></i> {{ day(event.date) }} · {{ time(event.date) }}<br>
+                  <i class="bi bi-geo-alt"></i> {{ event.venue }}
+                </p>
+                <div class="product-rating">
+                  @for (s of [1, 2, 3, 4, 5]; track s) {
+                    <i class="bi" [class.bi-star-fill]="s <= event.rating" [class.bi-star-half]="s > event.rating && s - 1 < event.rating" [class.bi-star]="s - 1 >= event.rating"></i>
+                  }
+                  <span>{{ event.rating }} ({{ event.reviews }})</span>
+                </div>
+                <div class="product-footer">
+                  <span class="product-price"><small>dès</small> {{ minPrice(event) | fcfa }}</span>
+                  <span class="product-go" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
+                </div>
+              </div>
+            </a>
+          }
+        </div>
+      } @else {
+        <div class="no-results">
+          <i class="bi bi-calendar-x"></i>
+          <h3>Aucun événement ne correspond</h3>
+          <p>Élargis ton budget ou retire un filtre pour voir plus d'événements.</p>
+          <button class="clear-all-btn clear-all-btn--solid" (click)="clearAllFilters()">Réinitialiser les filtres</button>
+        </div>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<section class="confirmation">
+  <div class="confetti no-print" aria-hidden="true">
+    @for (i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; track i) {
+      <span [style.--i]="i"></span>
+    }
+  </div>
+
+  <div class="container">
+    @if (booking(); as booking) {
+      @if (event(); as event) {
+        <div class="row g-4 g-lg-5 align-items-center justify-content-center">
+          <div class="col-lg-5 col-md-7">
+            <app-tickect-success-code-qr [booking]="booking" [event]="event" />
+          </div>
+          <div class="col-lg-5 no-print">
+            <span class="section-eyebrow"><i class="bi bi-check-circle-fill"></i> Paiement confirmé</span>
+            <h1 class="confirmation-title">C’est dans la poche !</h1>
+            <p class="confirmation-lead">
+              Garde ce billet sur ton téléphone : le QR code sera scanné à l’entrée.
+              Une copie a aussi été envoyée à {{ booking.buyer.email }}.
+            </p>
+
+            <ul class="next-steps">
+              <li><i class="bi bi-phone"></i> Monte la luminosité de ton écran pour un scan rapide.</li>
+              <li><i class="bi bi-person-vcard"></i> Prévois une pièce d’identité au nom de {{ booking.buyer.firstName }} {{ booking.buyer.lastName }}.</li>
+              <li><i class="bi bi-clock"></i> Les portes ouvrent 1 h avant le début.</li>
+            </ul>
+
+            <div class="confirmation-actions">
+              <button class="action action--primary" (click)="print()">
+                <i class="bi bi-download"></i> Télécharger / imprimer
+              </button>
+              <a class="action action--ghost" routerLink="/" fragment="evenements">
+                <i class="bi bi-calendar3"></i> Autres événements
+              </a>
+            </div>
+
+            <a class="lui-tag mt-4" href="https://libraryui.com/components/bootstrap/message-confirm-ticket-succes-payement" target="_blank" rel="noopener">
+              <i class="bi bi-boxes"></i> LibraryUI · Message confirm ticket
+            </a>
+          </div>
+        </div>
+      }
+    } @else {
+      <div class="missing text-center">
+        <i class="bi bi-ticket-perforated"></i>
+        <h1>Billet introuvable</h1>
+        <p>Cette réservation n’existe pas sur cet appareil. Les réservations de la démo sont enregistrées dans ton navigateur.</p>
+        <a routerLink="/" fragment="evenements" class="action action--primary">Réserver un événement</a>
+      </div>
+    }
+  </div>
+</section>

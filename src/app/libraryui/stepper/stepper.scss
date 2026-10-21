@@ -1,0 +1,491 @@
+// Styles LibraryUI « Stepper », couleurs BabiTix + liste de billets
+.stepper-container {
+  position: relative;
+}
+
+// HEADER
+.stepper-header {
+  margin-bottom: 2rem;
+}
+
+.progress-bar {
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981 0%, #FF6B6B 100%);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.steps-indicator {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: default;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+
+  &.active,
+  &.completed {
+    opacity: 1;
+  }
+
+  &.completed {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    color: inherit;
+  }
+}
+
+.step-circle {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  border: 2px solid #e5e7eb;
+  transition: all 0.3s ease;
+
+  i {
+    font-size: 1.25rem;
+    color: #9ca3af;
+  }
+
+  .active & {
+    background: #ecfdf5;
+    border-color: #10b981;
+
+    i {
+      color: #10b981;
+    }
+  }
+
+  .completed & {
+    background: #10b981;
+    border-color: #10b981;
+
+    i {
+      color: white;
+    }
+  }
+}
+
+.step-info {
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 640px) {
+    display: none;
+  }
+}
+
+.step-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.step-subtitle {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+// CONTENT
+.stepper-content {
+  position: relative;
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.5rem;
+
+  @media (max-width: 576px) {
+    padding: 1.25rem;
+  }
+}
+
+.step-panel {
+  animation: fadeIn 0.3s ease;
+}
+
+.panel-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+}
+
+.panel-subtitle {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin: 0 0 1.75rem 0;
+}
+
+// LISTE DE BILLETS (ajout BabiTix, sur le modèle des « radio-option »)
+.ticket-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.ticket-option {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+
+  &.is-selected {
+    border-color: #10b981;
+    background: #ecfdf5;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr auto;
+
+    .qty {
+      grid-column: 1 / -1;
+      justify-self: end;
+    }
+  }
+}
+
+.ticket-option__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.ticket-option__name {
+  font-weight: 700;
+  color: #111827;
+}
+
+.ticket-option__perks {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.ticket-option__low {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ef4444;
+}
+
+.ticket-option__price {
+  font-weight: 800;
+  color: #111827;
+  white-space: nowrap;
+}
+
+.qty {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+
+  button {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: #f3f4f6;
+    color: #374151;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background: #10b981;
+      color: #fff;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  span {
+    min-width: 28px;
+    text-align: center;
+    font-weight: 700;
+  }
+}
+
+// FORM ELEMENTS
+.step-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.input-wrapper {
+  position: relative;
+
+  i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+  }
+
+  .form-input {
+    padding-left: 2.75rem;
+  }
+
+  &--prefix .form-input {
+    padding-left: 5.5rem;
+    letter-spacing: 0.04em;
+  }
+}
+
+.input-prefix {
+  position: absolute;
+  left: 2.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+  }
+}
+
+.form-hint {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+// TERMS AGREEMENT
+.terms-agreement {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .checkbox-mark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #d1d5db;
+    border-radius: 0.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  input:focus-visible + .checkbox-mark {
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+  }
+
+  input:checked + .checkbox-mark {
+    background: #10b981;
+    border-color: #10b981;
+
+    &::after {
+      content: '✓';
+      color: white;
+      font-size: 0.75rem;
+    }
+  }
+
+  span:last-child {
+    font-size: 0.875rem;
+    color: #4b5563;
+  }
+}
+
+// PROCESSING (ajout BabiTix)
+.processing-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.2s ease;
+}
+
+.processing-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 360px;
+  text-align: center;
+
+  i {
+    font-size: 2.5rem;
+    color: #10b981;
+  }
+
+  strong {
+    font-size: 1.1rem;
+    color: #111827;
+  }
+
+  span {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+}
+
+// ACTIONS
+.stepper-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.lui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &--primary {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    }
+  }
+
+  &--secondary {
+    background: white;
+    color: #374151;
+    border: 1px solid #e5e7eb;
+
+    &:hover:not(:disabled) {
+      background: #f9fafb;
+    }
+  }
+
+  &--success {
+    flex: 1;
+    max-width: 320px;
+  }
+}
+
+.spin {
+  display: inline-block;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

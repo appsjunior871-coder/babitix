@@ -1,0 +1,76 @@
+.how {
+  position: relative;
+  z-index: 3;
+  margin-top: -3rem;
+
+  @media (max-width: 1024px) {
+    margin-top: -2rem;
+  }
+}
+
+.how-card {
+  position: relative;
+  height: 100%;
+  padding: 1.75rem;
+  background: #fff;
+  border-radius: var(--bt-radius);
+  box-shadow: var(--bt-shadow-lg);
+  overflow: hidden;
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin: 1rem 0 0.5rem;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--bt-muted);
+    line-height: 1.6;
+  }
+}
+
+.how-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 0.875rem;
+  background: var(--bt-green-soft);
+  color: var(--bt-green-dark);
+  font-size: 1.4rem;
+}
+
+.how-card__num {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #f1f5f9;
+  line-height: 1;
+}
+
+.section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  &--center {
+    justify-content: center;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.section--tinted {
+  background: linear-gradient(180deg, #ecfdf5 0%, var(--bt-bg) 100%);
+}

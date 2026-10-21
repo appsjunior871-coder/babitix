@@ -1,0 +1,81 @@
+<section class="ticket-card" aria-label="Confirmation de billet" data-libraryui="Message confirm ticket · Ticket success code QR">
+  <div class="ticket-card__section ticket-card__section--top">
+    <div class="celebrate-icon" aria-hidden="true">🎉</div>
+
+    <h2 class="ticket-title">Merci {{ booking().buyer.firstName }} !</h2>
+    <p class="ticket-subtitle">
+      Ton billet pour <strong>{{ event().title }}</strong> est confirmé.
+      Il a été envoyé au +225 {{ booking().buyer.phone }}.
+    </p>
+  </div>
+
+  <div class="ticket-divider" role="separator" aria-hidden="true">
+    <span class="ticket-divider__notch ticket-divider__notch--start"></span>
+    <span class="ticket-divider__line"></span>
+    <span class="ticket-divider__notch ticket-divider__notch--end"></span>
+  </div>
+
+  <div class="ticket-card__section ticket-card__section--mid">
+    <div class="ticket-info-row d-flex justify-content-between">
+      <div class="ticket-info">
+        <p class="ticket-info__label">Référence</p>
+        <p class="ticket-info__value">{{ booking().ref }}</p>
+      </div>
+      <div class="ticket-info ticket-info--right">
+        <p class="ticket-info__label ticket-info__label--plain">Montant</p>
+        <p class="ticket-info__value">{{ booking().total | fcfa }}</p>
+      </div>
+    </div>
+
+    <div class="ticket-info">
+      <p class="ticket-info__label">Date & heure</p>
+      <p class="ticket-info__value">{{ dateTime() }}</p>
+    </div>
+
+    <div class="ticket-info">
+      <p class="ticket-info__label">Lieu</p>
+      <p class="ticket-info__value">{{ event().venue }}, {{ event().city }}</p>
+    </div>
+
+    <div class="ticket-info">
+      <p class="ticket-info__label">Billets</p>
+      @for (line of booking().lines; track line.ticketId) {
+        <p class="ticket-info__value ticket-info__value--line">{{ line.qty }} × {{ line.name }}</p>
+      }
+    </div>
+
+    <div class="payment-card d-flex align-items-center gap-3">
+      @if (booking().payment.method === 'card') {
+        <span class="card-brand-icon" aria-hidden="true">
+          <span class="card-brand-icon__circle card-brand-icon__circle--red"></span>
+          <span class="card-brand-icon__circle card-brand-icon__circle--yellow"></span>
+        </span>
+      } @else {
+        <span class="momo-icon" [style.background]="methodColor()" aria-hidden="true">
+          <i class="bi" [class.bi-water]="booking().payment.method === 'wave'" [class.bi-phone-fill]="booking().payment.method !== 'wave'"></i>
+        </span>
+      }
+      <div class="payment-card__details">
+        <p class="payment-card__name">{{ booking().buyer.firstName }} {{ booking().buyer.lastName }}</p>
+        <p class="payment-card__number">{{ booking().payment.label }} •••• {{ booking().payment.last4 }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ticket-divider ticket-divider--plain" role="separator" aria-hidden="true"></div>
+
+  <div class="ticket-card__section ticket-card__section--barcode">
+    @if (qrDataUrl()) {
+      <img class="qr-code" [src]="qrDataUrl()" width="168" height="168" [alt]="'QR code du billet ' + booking().ref">
+      <p class="qr-hint">À présenter à l’entrée</p>
+    }
+    <svg class="barcode" viewBox="0 0 300 50" preserveAspectRatio="none" role="img" aria-label="Code-barres du billet">
+      <line
+        x1="0" y1="25" x2="300" y2="25"
+        stroke="#1a1f29" stroke-width="50"
+        [attr.stroke-dasharray]="barcodePattern()"
+      />
+    </svg>
+    <p class="barcode-number">{{ barcodeNumber() }}</p>
+  </div>
+</section>

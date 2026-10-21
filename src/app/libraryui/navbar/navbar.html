@@ -1,0 +1,52 @@
+<div class="ui-navbar-showcase" data-libraryui="Navbar Menu · Dark">
+  <nav class="nbar nbar--dark" [class.is-open]="menuOpen()" aria-label="Navigation principale">
+    <a routerLink="/" class="nbar-brand" (click)="menuOpen.set(false)">
+      <div class="nbar-logo"><i class="bi bi-ticket-perforated-fill"></i></div>
+      <span class="nbar-brand-name">Babi<span>Tix</span></span>
+    </a>
+
+    <div class="nbar-nav">
+      @for (link of links; track link.fragment) {
+        <a routerLink="/" [fragment]="link.fragment" class="nbar-link" (click)="menuOpen.set(false)">
+          {{ link.label }}
+        </a>
+      }
+    </div>
+
+    <form class="nbar-search" role="search" (submit)="submitSearch(); $event.preventDefault()">
+      <i class="bi bi-search"></i>
+      <input
+        type="search"
+        name="q"
+        placeholder="Artiste, lieu, ville..."
+        aria-label="Rechercher un événement"
+        [ngModel]="search.query()"
+        (ngModelChange)="search.query.set($event)">
+      <kbd>↵</kbd>
+    </form>
+
+    <div class="nbar-actions">
+      @if (lastBookingRef(); as ref) {
+        <a class="nbar-icon-btn" [routerLink]="['/confirmation', ref]" title="Mes billets" aria-label="Mes billets">
+          <i class="bi bi-ticket-detailed"></i>
+          <span class="nbar-notif-dot">{{ bookings.ticketCount() }}</span>
+        </a>
+      } @else {
+        <span class="nbar-icon-btn" title="Aucun billet pour l'instant">
+          <i class="bi bi-ticket-detailed"></i>
+        </span>
+      }
+      <a routerLink="/" fragment="evenements" class="nbar-cta" (click)="menuOpen.set(false)">
+        Réserver
+      </a>
+      <button
+        type="button"
+        class="nbar-icon-btn nbar-burger"
+        [attr.aria-expanded]="menuOpen()"
+        aria-label="Menu"
+        (click)="menuOpen.set(!menuOpen())">
+        <i class="bi" [class.bi-list]="!menuOpen()" [class.bi-x-lg]="menuOpen()"></i>
+      </button>
+    </div>
+  </nav>
+</div>

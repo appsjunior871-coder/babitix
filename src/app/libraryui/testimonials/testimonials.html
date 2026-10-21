@@ -1,0 +1,28 @@
+<div class="car3" data-libraryui="Carousel · témoignage slide">
+  <div class="car3__inner">
+    <div class="car3__quote"><i class="bi bi-quote"></i></div>
+    @let t = testimonials[current()];
+    <div class="car3__slide" aria-live="polite">
+      <!-- la clé change à chaque avis : le bloc est recréé et le fondu rejoué -->
+      @for (key of [current()]; track key) {
+        <div class="car3__fade">
+          <div class="car3__stars" [attr.aria-label]="t.stars + ' étoiles sur 5'">
+            @for (s of stars(t.stars); track $index) {
+              <i class="bi bi-star-fill"></i>
+            }
+          </div>
+          <p class="car3__text">{{ t.text }}</p>
+          <div class="car3__author">
+            <div class="car3__avatar" [style.background]="t.color">{{ t.initials }}</div>
+            <div><strong>{{ t.name }}</strong><span>{{ t.role }}</span></div>
+          </div>
+        </div>
+      }
+    </div>
+    <div class="car3__nav">
+      <button (click)="prev()" aria-label="Avis précédent"><i class="bi bi-arrow-left"></i></button>
+      <span>{{ current() + 1 }} / {{ testimonials.length }}</span>
+      <button (click)="next()" aria-label="Avis suivant"><i class="bi bi-arrow-right"></i></button>
+    </div>
+  </div>
+</div>

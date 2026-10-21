@@ -1,0 +1,172 @@
+<div class="payment-main" data-libraryui="Payment · Mode paiement">
+  <!-- Payment Methods -->
+  <div class="payment-methods">
+    <h3 class="section-title">Choisis ton moyen de paiement</h3>
+    <div class="methods-grid" role="radiogroup" aria-label="Moyen de paiement">
+      @for (method of paymentMethods; track method.id) {
+        <button
+          type="button"
+          class="method-card"
+          role="radio"
+          [attr.aria-checked]="store.payment().method === method.id"
+          [class.selected]="store.payment().method === method.id"
+          [style.--method-color]="method.color"
+          (click)="selectMethod(method.id)">
+          <div class="method-icon">
+            <i class="bi" [class]="method.icon"></i>
+          </div>
+          <span class="method-name">{{ method.name }}</span>
+          @if (store.payment().method === method.id) {
+            <i class="bi bi-check-circle-fill check-icon"></i>
+          }
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (store.payment().method === 'card') {
+    <!-- New Card Form -->
+    <div class="payment-form new-card-form">
+      <div class="card-preview">
+        <div class="preview-card" [class]="getCardBrand()">
+          <div class="preview-brand">
+            <i class="bi bi-credit-card"></i>
+          </div>
+          <div class="preview-number">{{ store.payment().cardNumber || '•••• •••• •••• ••••' }}</div>
+          <div class="preview-details">
+            <div class="preview-name">{{ store.payment().cardName || 'NOM DU TITULAIRE' }}</div>
+            <div class="preview-expiry">{{ store.payment().expiryDate || 'MM/AA' }}</div>
+          </div>
+          <div class="preview-chip">
+            <i class="bi bi-sim"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-form">
+        <div class="form-group">
+          <label class="form-label" for="card-number">Numéro de carte</label>
+          <div class="input-wrapper">
+            <i class="bi bi-credit-card input-icon"></i>
+            <input
+              id="card-number"
+              type="text"
+              inputmode="numeric"
+              autocomplete="off"
+              class="form-input"
+              [value]="store.payment().cardNumber"
+              (input)="formatCardNumber($event)"
+              placeholder="4242 4242 4242 4242"
+              maxlength="19">
+            @if (getCardBrand()) {
+              <div class="card-brand" [class]="getCardBrand()">
+                <i class="bi bi-credit-card-2-front"></i>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="card-name">Nom du titulaire</label>
+          <div class="input-wrapper">
+            <i class="bi bi-person input-icon"></i>
+            <input
+              id="card-name"
+              type="text"
+              autocomplete="off"
+              class="form-input"
+              [value]="store.payment().cardName"
+              (input)="store.updatePayment({ cardName: $any($event.target).value.toUpperCase() })"
+              placeholder="AYA KOUASSI">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="card-expiry">Date d’expiration</label>
+            <div class="input-wrapper">
+              <i class="bi bi-calendar3 input-icon"></i>
+              <input
+                id="card-expiry"
+                type="text"
+                inputmode="numeric"
+                autocomplete="off"
+                class="form-input"
+                [value]="store.payment().expiryDate"
+                (input)="formatExpiryDate($event)"
+                placeholder="MM/AA"
+                maxlength="5">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="card-cvv">
+              CVV
+              <i class="bi bi-question-circle-fill help-icon" title="Les 3 chiffres au dos de ta carte"></i>
+            </label>
+            <div class="input-wrapper">
+              <i class="bi bi-lock input-icon"></i>
+              <input
+                id="card-cvv"
+                type="password"
+                inputmode="numeric"
+                autocomplete="off"
+                class="form-input"
+                [value]="store.payment().cvv"
+                (input)="formatCvv($event)"
+                placeholder="•••"
+                maxlength="4">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <!-- Mobile Money (ajout BabiTix, mêmes styles de formulaire) -->
+    <div class="payment-form momo-form">
+      <div class="momo-banner" [style.--method-color]="selected().color">
+        <div class="method-icon"><i class="bi" [class]="selected().icon"></i></div>
+        <div>
+          <strong>Paiement {{ selected().name }}</strong>
+          <span>Tu recevras une demande de confirmation sur ton téléphone. Valide-la avec ton code secret : BabiTix ne le voit jamais.</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="momo-phone">Numéro {{ selected().name }}</label>
+        <div class="input-wrapper">
+          <i class="bi bi-phone input-icon"></i>
+          <span class="phone-prefix">+225</span>
+          <input
+            id="momo-phone"
+            type="tel"
+            inputmode="numeric"
+            autocomplete="tel-national"
+            class="form-input form-input--phone"
+            [value]="store.payment().phone"
+            (input)="formatPhone($event)"
+            placeholder="07 00 00 00 00">
+        </div>
+      </div>
+    </div>
+  }
+
+  <p class="demo-note">
+    <i class="bi bi-info-circle-fill"></i>
+    <span>Mode démo : aucun paiement n’est effectué. N’entre pas de vraies coordonnées bancaires, utilise par exemple 4242 4242 4242 4242.</span>
+  </p>
+
+  <!-- Security Info -->
+  <div class="security-info">
+    <div class="security-item">
+      <i class="bi bi-shield-lock-fill"></i>
+      <span>Connexion chiffrée</span>
+    </div>
+    <div class="security-item">
+      <i class="bi bi-patch-check-fill"></i>
+      <span>3-D Secure</span>
+    </div>
+    <div class="security-item">
+      <i class="bi bi-lock-fill"></i>
+      <span>Code secret jamais partagé</span>
+    </div>
+  </div>
+</div>

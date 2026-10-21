@@ -1,0 +1,117 @@
+@if (event(); as event) {
+  <section class="event-hero">
+    <div class="container">
+      <nav aria-label="Fil d’Ariane" class="crumbs">
+        <a routerLink="/">Accueil</a>
+        <i class="bi bi-chevron-right"></i>
+        <a routerLink="/" fragment="evenements">Événements</a>
+        <i class="bi bi-chevron-right"></i>
+        <span>{{ event.title }}</span>
+      </nav>
+
+      <div class="row g-4 g-lg-5 align-items-center">
+        <div class="col-lg-5">
+          <app-poster class="event-poster" [event]="event" size="lg" />
+        </div>
+        <div class="col-lg-7">
+          <span class="event-category">{{ event.category }} · {{ event.city }}</span>
+          <h1 class="event-title">{{ event.title }}</h1>
+          <p class="event-tagline">{{ event.tagline }}</p>
+
+          <ul class="event-facts">
+            <li>
+              <i class="bi bi-calendar-event"></i>
+              <div>
+                <strong>{{ longDate(event.date) }}</strong>
+                <span>
+                  à partir de {{ time(event.date) }}
+                  @if (event.endDate) {
+                    · jusqu’au {{ longDate(event.endDate) }}
+                  }
+                </span>
+              </div>
+            </li>
+            <li>
+              <i class="bi bi-geo-alt"></i>
+              <div>
+                <strong>{{ event.venue }}</strong>
+                <span>{{ event.city }}, Côte d’Ivoire</span>
+              </div>
+            </li>
+            <li>
+              <i class="bi bi-star-fill"></i>
+              <div>
+                <strong>{{ event.rating }}/5</strong>
+                <span>{{ event.reviews }} avis de fans</span>
+              </div>
+            </li>
+          </ul>
+
+          <p class="event-description">{{ event.description }}</p>
+
+          <div class="event-lineup">
+            @for (name of event.lineup; track name) {
+              <span>{{ name }}</span>
+            }
+          </div>
+
+          <a class="event-cta" [routerLink]="[]" fragment="reservation">
+            Réserver dès {{ minPrice(event) | fcfa }} <i class="bi bi-arrow-down"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reservation" class="section reservation">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow"><i class="bi bi-ticket-perforated"></i> Réservation</span>
+          <h2 class="section-heading">Réserve tes places</h2>
+        </div>
+        <div class="lui-tags">
+          <a class="lui-tag" href="https://libraryui.com/components/bootstrap/stepper" target="_blank" rel="noopener"><i class="bi bi-boxes"></i> Stepper</a>
+          <a class="lui-tag" href="https://libraryui.com/components/bootstrap/coupon" target="_blank" rel="noopener"><i class="bi bi-boxes"></i> Coupon</a>
+          <a class="lui-tag" href="https://libraryui.com/components/bootstrap/payment" target="_blank" rel="noopener"><i class="bi bi-boxes"></i> Payment</a>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-8">
+          <ui-stepper />
+        </div>
+        <div class="col-lg-4">
+          <ui-order-summary />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  @if (related().length) {
+    <section class="section pt-0">
+      <div class="container">
+        <h2 class="related-title">Tu aimeras aussi</h2>
+        <div class="row g-3">
+          @for (item of related(); track item.slug) {
+            <div class="col-md-4">
+              <a class="related-card" [routerLink]="['/evenements', item.slug]">
+                <app-poster [event]="item" size="sm" />
+                <span class="related-card__price">dès {{ minPrice(item) | fcfa }}</span>
+              </a>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+  }
+} @else {
+  <section class="section not-found">
+    <div class="container text-center">
+      <i class="bi bi-calendar-x"></i>
+      <h1>Événement introuvable</h1>
+      <p>Cet événement n’existe pas ou n’est plus en vente.</p>
+      <a routerLink="/" fragment="evenements" class="event-cta">Voir tous les événements</a>
+    </div>
+  </section>
+}

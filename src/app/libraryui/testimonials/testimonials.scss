@@ -1,0 +1,120 @@
+// Styles LibraryUI « temoignage slide » (car3), couleurs BabiTix
+.car3 {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.car3__inner {
+  position: relative;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 2rem;
+  padding: 3rem;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+
+  @media (max-width: 576px) {
+    padding: 2rem 1.25rem;
+    border-radius: 1.5rem;
+  }
+}
+.car3__quote i {
+  font-size: 3rem;
+  color: #a7f3d0;
+}
+.car3__slide {
+  min-height: 250px;
+
+  @media (max-width: 576px) {
+    min-height: 320px;
+  }
+}
+.car3__fade {
+  animation: car3-fade 0.45s ease;
+}
+.car3__stars {
+  display: flex;
+  justify-content: center;
+  gap: 0.25rem;
+  margin: 0.75rem 0 1.5rem;
+}
+.car3__stars i {
+  color: #f59e0b;
+  font-size: 1rem;
+}
+.car3__text {
+  font-size: 1.15rem;
+  color: #374151;
+  line-height: 1.8;
+  margin: 0 0 2rem;
+  font-style: italic;
+
+  @media (max-width: 576px) {
+    font-size: 1rem;
+  }
+}
+.car3__author {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+.car3__avatar {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.car3__author strong {
+  display: block;
+  font-size: 0.95rem;
+  color: #111827;
+  text-align: left;
+}
+.car3__author span {
+  display: block;
+  font-size: 0.8rem;
+  color: #9ca3af;
+  text-align: left;
+}
+.car3__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.car3__nav button {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #f3f4f6;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #374151;
+  transition: all 0.2s;
+}
+.car3__nav button:hover {
+  background: #10b981;
+  color: #fff;
+}
+.car3__nav span {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  min-width: 40px;
+  text-align: center;
+}
+
+@keyframes car3-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}

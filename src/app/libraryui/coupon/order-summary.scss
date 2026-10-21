@@ -1,0 +1,132 @@
+// Styles LibraryUI « Coupon · Order Summary », couleurs BabiTix
+.order-summary {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  position: sticky;
+  top: 6rem;
+}
+
+.summary-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 1.25rem 0;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.summary-event {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
+  background: #f9fafb;
+
+  strong {
+    font-size: 0.95rem;
+    color: #111827;
+  }
+
+  span {
+    font-size: 0.8rem;
+    color: #6b7280;
+
+    i { margin-right: 0.25rem; }
+  }
+}
+
+.summary-lines {
+  margin-bottom: 1rem;
+}
+
+.summary-empty {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.75rem 0;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.625rem 0;
+  font-size: 0.9rem;
+  color: #6b7280;
+
+  small {
+    color: #9ca3af;
+  }
+
+  span:last-child {
+    white-space: nowrap;
+    color: #374151;
+    font-weight: 600;
+  }
+
+  &.discount {
+    color: #16a34a;
+
+    span:first-child {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+    }
+
+    span:last-child {
+      color: #16a34a;
+    }
+  }
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-top: 1px solid #e5e7eb;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.savings-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  background: #f0fdf4;
+  color: #16a34a;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.summary-perks {
+  list-style: none;
+  padding: 1rem 0 0;
+  margin: 0;
+  border-top: 1px dashed #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+
+  i {
+    color: #10b981;
+    margin-right: 0.375rem;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .order-summary {
+    position: static;
+  }
+}

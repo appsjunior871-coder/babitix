@@ -1,0 +1,352 @@
+// Styles LibraryUI « Payment · Mode paiement », couleurs BabiTix
+// PAYMENT METHODS
+.payment-methods {
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #374151;
+  margin: 0 0 1rem 0;
+}
+
+.methods-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.75rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.method-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0.5rem;
+  background: #fff;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #d1d5db;
+    transform: translateY(-2px);
+  }
+
+  &.selected {
+    border-color: #10b981;
+    background: #ecfdf5;
+  }
+
+  .method-icon {
+    width: 40px;
+    height: 40px;
+    background: #f3f4f6;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+
+    i {
+      font-size: 1.25rem;
+      color: var(--method-color, #374151);
+    }
+  }
+
+  &.selected .method-icon {
+    background: var(--method-color, #10b981);
+
+    i {
+      color: white;
+    }
+  }
+
+  .method-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #374151;
+    text-align: center;
+  }
+
+  .check-icon {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1rem;
+    color: #10b981;
+  }
+}
+
+.payment-form {
+  margin-bottom: 1.25rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// CARD PREVIEW
+.card-preview {
+  margin-bottom: 1.5rem;
+}
+
+.preview-card {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 180px;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #10b981 0%, #0f766e 100%);
+  border-radius: 1rem;
+  color: white;
+  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.35);
+  transition: background 0.3s ease;
+
+  &.visa {
+    background: linear-gradient(135deg, #1a1f71 0%, #0d1033 100%);
+  }
+
+  &.mastercard {
+    background: linear-gradient(135deg, #eb001b 0%, #f79e1b 100%);
+  }
+}
+
+.preview-brand {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+
+  i {
+    font-size: 2rem;
+    opacity: 0.8;
+  }
+}
+
+.preview-chip {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.5rem;
+
+  i {
+    font-size: 2rem;
+    opacity: 0.6;
+  }
+}
+
+.preview-number {
+  position: absolute;
+  top: 50%;
+  left: 1.5rem;
+  transform: translateY(-50%);
+  font-family: 'Courier New', monospace;
+  font-size: 1.2rem;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+.preview-details {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.preview-name {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 70%;
+}
+
+.preview-expiry {
+  font-size: 0.75rem;
+  font-family: 'Courier New', monospace;
+}
+
+// CARD FORM
+.card-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+
+  .help-icon {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    cursor: help;
+  }
+}
+
+.input-wrapper {
+  position: relative;
+
+  .input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+  }
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.875rem 1rem 0.875rem 2.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background: #fff;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+
+  &--phone {
+    padding-left: 5.5rem;
+    letter-spacing: 0.04em;
+  }
+}
+
+.phone-prefix {
+  position: absolute;
+  left: 2.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.card-brand {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+
+  &.visa {
+    color: #1a1f71;
+  }
+
+  &.mastercard {
+    color: #eb001b;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// MOBILE MONEY (ajout BabiTix)
+.momo-banner {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: #f9fafb;
+  border-left: 4px solid var(--method-color);
+
+  .method-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--method-color);
+    color: #fff;
+    font-size: 1.2rem;
+  }
+
+  strong {
+    display: block;
+    color: #111827;
+    margin-bottom: 0.25rem;
+  }
+
+  span {
+    font-size: 0.85rem;
+    color: #6b7280;
+    line-height: 1.5;
+  }
+}
+
+.demo-note {
+  margin: 0 0 0.5rem;
+}
+
+// SECURITY INFO
+.security-info {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding-top: 1.25rem;
+  margin-top: 1.25rem;
+  border-top: 1px solid #e5e7eb;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+}
+
+.security-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #16a34a;
+
+  i {
+    font-size: 1rem;
+  }
+}

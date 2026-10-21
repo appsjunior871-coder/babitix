@@ -1,0 +1,42 @@
+<div
+  class="car1"
+  data-libraryui="Carousel"
+  role="region"
+  aria-roledescription="carrousel"
+  aria-label="Événements à la une"
+  tabindex="0"
+  (mouseenter)="pause(true)"
+  (mouseleave)="pause(false)"
+  (focusin)="pause(true)"
+  (focusout)="pause(false)"
+  (keydown.arrowleft)="prev()"
+  (keydown.arrowright)="next()"
+  (touchstart)="onTouchStart($event)"
+  (touchend)="onTouchEnd($event)">
+  <div class="car1__track" [style.transform]="'translateX(-' + current() * 100 + '%)'">
+    @for (s of slides(); track s.slug; let i = $index) {
+      <div class="car1__slide" [attr.aria-hidden]="i !== current()" [attr.inert]="i !== current() ? '' : null">
+        <app-poster class="car1__bg" [event]="s" size="lg" [showTitle]="false" [showDate]="false" />
+        <div class="car1__slide-content">
+          <span class="car1__kicker"><i class="bi bi-fire"></i> À la une · {{ s.category }}</span>
+          <h2>{{ s.title }}</h2>
+          <p>{{ s.tagline }}</p>
+          <ul class="car1__meta">
+            <li><i class="bi bi-calendar-event"></i> {{ day(s.date) }} · {{ time(s.date) }}</li>
+            <li><i class="bi bi-geo-alt"></i> {{ s.venue }}</li>
+          </ul>
+          <a class="car1__cta" [routerLink]="['/evenements', s.slug]">
+            Réserver dès {{ minPrice(s) | fcfa }} <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    }
+  </div>
+  <button class="car1__btn car1__btn--prev" (click)="prev()" aria-label="Événement précédent"><i class="bi bi-chevron-left"></i></button>
+  <button class="car1__btn car1__btn--next" (click)="next()" aria-label="Événement suivant"><i class="bi bi-chevron-right"></i></button>
+  <div class="car1__dots">
+    @for (s of slides(); track s.slug; let i = $index) {
+      <button class="car1__dot" [class.active]="i === current()" (click)="go(i)" [attr.aria-label]="'Aller à ' + s.title"></button>
+    }
+  </div>
+</div>
