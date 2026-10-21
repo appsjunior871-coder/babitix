@@ -4,7 +4,7 @@ Projet réalisé pour le **[LibraryUI Challenge #01 — Création libre](https:/
 
 BabiTix est une billetterie en ligne pour les concerts, festivals, spectacles d'humour et événements sportifs en Côte d'Ivoire. On trouve un événement, on choisit ses billets, on applique un code promo, on paie en Mobile Money (ou par carte) et on reçoit un e-billet avec un QR code.
 
-> **Démo en ligne :** _à ajouter après le déploiement_
+> **Démo en ligne : https://babitix.vercel.app**
 > Les événements sont fictifs et aucun paiement n'est réellement effectué.
 
 ## Composants LibraryUI utilisés (10)
@@ -68,7 +68,7 @@ Le fichier `vercel.json` est prêt : il contient la commande de build, le dossie
 
 1. Publie ce dossier sur un dépôt GitHub.
 2. Sur [vercel.com](https://vercel.com), choisis *Add New → Project* puis importe le dépôt. Vercel lit `vercel.json`, il n'y a rien à configurer.
-3. Ajoute le lien de la démo en haut de ce README et dans ta soumission LibraryUI.
+3. Chaque `git push` sur `main` redéploie automatiquement le site.
 
 ---
 
